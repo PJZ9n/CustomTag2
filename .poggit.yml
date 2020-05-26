@@ -1,0 +1,14 @@
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/PJZ9n/CustomTag2
+build-by-default: true
+branches:
+  - master
+projects:
+  CustomTag2:
+    libs:
+      - src: poggit\libasynql\libasynql
+        version: 3.3.0
+      - src: jojoe77777/FormAPI/libFormAPI
+        version: 1.3.0
+      - src: PJZ9n/MoneyConnector/MoneyConnector
+        version: 1.1.0
+...
