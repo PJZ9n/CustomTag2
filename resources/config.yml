@@ -1,0 +1,5 @@
+database:
+  type: sqlite
+  sqlite:
+    file: db.sqlite3
+  worker-limit: 1

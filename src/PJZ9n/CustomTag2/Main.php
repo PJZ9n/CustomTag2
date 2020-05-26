@@ -28,9 +28,14 @@ use PJZ9n\CustomTag2\Command\TagCommand;
 use pocketmine\permission\Permission;
 use pocketmine\permission\PermissionManager;
 use pocketmine\plugin\PluginBase;
+use poggit\libasynql\DataConnector;
+use poggit\libasynql\libasynql;
 
 class Main extends PluginBase
 {
+    /** @var DataConnector */
+    private $dataConnector;
+    
     public function onEnable(): void
     {
         //Configのアップデート処理
@@ -44,6 +49,12 @@ class Main extends PluginBase
         $newCount = count($this->getConfig()->getAll(), COUNT_RECURSIVE);
         $this->getLogger()->info(($newCount - $oldCount) . "個の値を追加しました！");
         $this->saveConfig();
+        //データベース
+        $this->dataConnector = libasynql::create($this, $this->getConfig()->get("database"), [
+            "sqlite" => "sqlite.sql",
+        ]);
+        $this->dataConnector->executeGeneric("CustomTag2.playertag.init");
+        $this->dataConnector->executeGeneric("CustomTag2.shoptag.init");
         //権限登録
         $permission = new Permission(
             "customtag2.command.tagadmin",
