@@ -27,5 +27,18 @@ use pocketmine\plugin\PluginBase;
 
 class Main extends PluginBase
 {
-    //
+    public function onEnable(): void
+    {
+        //Configのアップデート処理
+        $this->getLogger()->info("config.ymlをアップデートします...");
+        $fp = $this->getResource("config.yml");
+        $configYaml = "";
+        while (!feof($fp)) $configYaml .= fgets($fp);
+        fclose($fp);
+        $oldCount = count($this->getConfig()->getAll(), COUNT_RECURSIVE);
+        $this->getConfig()->setDefaults(yaml_parse($configYaml));//replace
+        $newCount = count($this->getConfig()->getAll(), COUNT_RECURSIVE);
+        $this->getLogger()->info(($newCount - $oldCount) . "個の値を追加しました！");
+        $this->saveConfig();
+    }
 }
