@@ -72,4 +72,14 @@ class Main extends PluginBase
         $this->getServer()->getCommandMap()->register($this->getName(), new TagAdminCommand($this));
         $this->getServer()->getCommandMap()->register($this->getName(), new TagCommand($this));
     }
+    
+    public function onDisable(): void
+    {
+        //データベース修了処理
+        if (isset($this->dataConnector)) {
+            $this->getLogger()->info("データベース待機中...");
+            $this->dataConnector->waitAll();
+            $this->dataConnector->close();
+        }
+    }
 }
