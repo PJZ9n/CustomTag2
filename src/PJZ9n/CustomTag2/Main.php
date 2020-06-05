@@ -70,7 +70,7 @@ class Main extends PluginBase
         PermissionManager::getInstance()->addPermission($permission);
         //コマンド登録
         $this->getServer()->getCommandMap()->register($this->getName(), new TagAdminCommand($this));
-        $this->getServer()->getCommandMap()->register($this->getName(), new TagCommand($this));
+        $this->getSever()->getCommandMap()->register($this->getName(), new TagCommand($this, $this->dataConnector));
     }
     
     public function onDisable(): void
